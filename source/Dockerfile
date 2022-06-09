@@ -7,22 +7,16 @@ RUN apt-get update \
     && apt-get clean
 
 # Clone the flutter repo && project repo
-RUN git clone https://github.com/flutter/flutter.git /usr/local/flutter && git clone https://github.com/khudysh/Academus.git /usr/local/srm_test
+RUN git clone https://github.com/flutter/flutter.git /usr/local/flutter 
+ && git clone https://github.com/khudysh/Academus.git /usr/local/srm_test
 
 # Set flutter path
-# RUN /usr/local/flutter/bin/flutter doctor -v
 ENV PATH="/usr/local/flutter/bin:/usr/local/flutter/bin/cache/dart-sdk/bin:${PATH}"
 
-# Run flutter doctor
-RUN flutter doctor -v
-# Enable flutter web
-RUN flutter channel master
-RUN flutter upgrade
-RUN flutter config --enable-web
+# Run flutter settings (optional)
+RUN flutter doctor -v && flutter channel master
+ && flutter upgrade && flutter config --enable-web
 
-# Copy files to container and build
-#RUN mkdir /app/
-#COPY . /app/
 WORKDIR /usr/local/srm_test
 RUN flutter build web --release
 
